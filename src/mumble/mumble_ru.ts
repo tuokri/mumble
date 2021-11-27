@@ -8815,7 +8815,7 @@ An access token is a text string, which can be used as a password for very simpl
     </message>
     <message>
         <source>.opus - Lossy compressed</source>
-        <translation type="unfinished"></translation>
+        <translation>.opus - Сжатие с потерями</translation>
     </message>
 </context>
 <context>
@@ -8927,7 +8927,7 @@ Please contact your server administrator for further information.</source>
     </message>
     <message>
         <source>Unable to start recording - the audio output is miconfigured (0Hz sample rate)</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно начать запись - аудиовыход настроен на микрофон (частота дискретизации 0 Гц)</translation>
     </message>
 </context>
 <context>
