@@ -1299,6 +1299,16 @@ static void impl_Server_setState(const ::MumbleServer::AMD_Server_setStatePtr cb
 	cb->ice_response();
 }
 
+static void impl_Server_setPosition(const ::MumbleServer::AMD_Server_setPositionPtr cb, int server_id,
+									::Ice::Int userid, ::Ice::Float x, ::Ice::Float y, ::Ice::Float z)
+{
+	NEED_SERVER;
+
+	server->setUserPosition(userid, {x, y, z});
+
+	cb->ice_response();
+}
+
 static void impl_Server_sendMessageChannel(const ::MumbleServer::AMD_Server_sendMessageChannelPtr cb, int server_id,
 										   ::Ice::Int channelid, bool tree, const ::std::string &text) {
 	NEED_SERVER;

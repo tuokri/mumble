@@ -595,6 +595,11 @@ module MumbleServer
 		 */
 		idempotent void setState(User state) throws ServerBootedException, InvalidSessionException, InvalidChannelException, InvalidSecretException;
 
+		/** TODO: docs.
+		 *
+		**/
+		idempotent void setPosition(int userid, float x, float y, float z) throws ServerBootedException, InvalidSessionException, InvalidSecretException;
+
 		/** Send text message to a single user.
 		 * @param session Connection ID of user. See {@link User.session}.
 		 * @param text Message to send.

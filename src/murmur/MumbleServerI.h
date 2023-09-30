@@ -83,6 +83,9 @@ public:
 	virtual void setState_async(const ::MumbleServer::AMD_Server_setStatePtr &, const ::MumbleServer::User &,
 								const Ice::Current &);
 
+	virtual void setPosition_async(const ::MumbleServer::AMD_Server_setPositionPtr &, ::Ice::Int userid,
+								   ::Ice::Float x, ::Ice::Float y, ::Ice::Float z, const Ice::Current &);
+
 	virtual void getChannelState_async(const ::MumbleServer::AMD_Server_getChannelStatePtr &, ::Ice::Int,
 									   const Ice::Current &);
 
