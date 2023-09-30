@@ -951,6 +951,10 @@ void Server::run() {
 								// Add session id
 								audioData.senderSession = u->uiSession;
 
+								if (qhUserPositions.contains(u->iId)) {
+									audioData.position = qhUserPositions.value(u->iId);
+								}
+
 								processMsg(u, audioData, m_udpAudioReceivers, m_udpAudioEncoder);
 							}
 							break;

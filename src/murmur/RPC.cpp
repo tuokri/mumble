@@ -93,6 +93,16 @@ void Server::setUserState(User *pUser, Channel *cChannel, bool mute, bool deaf, 
 	}
 }
 
+void Server::setUserPosition(int userId, const std::array< float, 3 > &position)
+{
+	qhUserPositions.insert(userId, position);
+}
+
+void Server::removeUserPosition(int userId)
+{
+	qhUserPositions.remove(userId);
+}
+
 bool Server::setChannelState(Channel *cChannel, Channel *cParent, const QString &qsName, const QSet< Channel * > &links,
 							 const QString &desc, const int position) {
 	bool changed = false;

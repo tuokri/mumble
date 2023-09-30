@@ -305,6 +305,7 @@ public:
 	QHash< QPair< HostAddress, quint16 >, ServerUser * > qhPeerUsers;
 	QHash< HostAddress, QSet< ServerUser * > > qhHostUsers;
 	QHash< unsigned int, Channel * > qhChannels;
+	QHash< int, std::array< float, 3 >> qhUserPositions;
 
 	QMutex qmCache;
 	ChanACL::ACLCache acCache;
@@ -417,6 +418,10 @@ signals:
 public:
 	void setUserState(User *p, Channel *parent, bool mute, bool deaf, bool suppressed, bool prioritySpeaker,
 					  const QString &name = QString(), const QString &comment = QString());
+
+	void setUserPosition(int userId, const std::array< float, 3 > &position);
+
+	void removeUserPosition(int userId);
 
 	bool setChannelState(Channel *c, Channel *parent, const QString &qsName, const QSet< Channel * > &links,
 						 const QString &desc = QString(), const int position = 0);
