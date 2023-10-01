@@ -50,3 +50,7 @@ compile_commands.json
 .devcontainer/*
 __pycache__/
 CMakeSettings.json
+.idea/
+.python-version
+cmake-build-debug/
+cmake-build-release/
