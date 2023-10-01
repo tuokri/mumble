@@ -622,7 +622,7 @@ module MumbleServer
 		 * @see setPosition
 		 * @see getPosition
 		 */
-		idempotent void removePosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
+		void removePosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
 		/** Send text message to a single user.
 		 * @param session Connection ID of user. See {@link User.session}.
