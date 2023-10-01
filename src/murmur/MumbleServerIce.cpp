@@ -225,6 +225,18 @@ static void textmessageToTextmessage(const ::TextMessage &tm, ::MumbleServer::Te
 		tmdst.trees.push_back(i);
 }
 
+static void positionToPosition(const std::array< float, 3> &pos, ::MumbleServer::Position &posdst) {
+	posdst.x = pos[0];
+	posdst.y = pos[1];
+	posdst.z = pos[2];
+}
+
+static void positionToPosition(const ::MumbleServer::Position &pos, std::array< float, 3 > &posdst) {
+	posdst[0] = pos.x;
+	posdst[1] = pos.y;
+	posdst[2] = pos.z;
+}
+
 class ServerLocator : public virtual Ice::ServantLocator {
 public:
 	virtual Ice::ObjectPtr locate(const Ice::Current &, Ice::LocalObjectPtr &);
@@ -1299,12 +1311,43 @@ static void impl_Server_setState(const ::MumbleServer::AMD_Server_setStatePtr cb
 	cb->ice_response();
 }
 
-static void impl_Server_setPosition(const ::MumbleServer::AMD_Server_setPositionPtr cb, int server_id,
-									::Ice::Int userid, ::Ice::Float x, ::Ice::Float y, ::Ice::Float z)
-{
+#define ACCESS_Server_getPosition_READ
+static void impl_Server_getPosition(const ::MumbleServer::AMD_Server_getPositionPtr cb, int server_id,
+									::Ice::Int userid) {
 	NEED_SERVER;
 
-	server->setUserPosition(userid, {x, y, z});
+	std::array< float, 3 > pos{};
+	const bool ok = server->getUserPosition(userid, pos);
+
+	if (!ok) {
+		cb->ice_exception(InvalidUserException());
+	}
+
+	::MumbleServer::Position mspos{};
+	positionToPosition(pos, mspos);
+	cb->ice_response(mspos);
+}
+
+static void impl_Server_setPosition(const ::MumbleServer::AMD_Server_setPositionPtr cb, int server_id,
+									::Ice::Int userid, const ::MumbleServer::Position &position) {
+	NEED_SERVER;
+
+	std::array< float, 3 > pos{};
+	positionToPosition(position, pos);
+	server->setUserPosition(userid, pos);
+
+	cb->ice_response();
+}
+
+static void impl_Server_removePosition(const ::MumbleServer::AMD_Server_removePositionPtr cb, int server_id,
+									   ::Ice::Int userid) {
+	NEED_SERVER;
+
+	const bool ok = server->removeUserPosition(userid);
+
+	if (!ok) {
+		cb->ice_exception(InvalidUserException());
+	}
 
 	cb->ice_response();
 }
@@ -2029,6 +2072,7 @@ static void impl_Meta_getUptime(const ::MumbleServer::AMD_Meta_getUptimePtr cb, 
 #undef ACCESS_Server_hasPermission_READ
 #undef ACCESS_Server_effectivePermissions_READ
 #undef ACCESS_Server_getState_READ
+#undef ACCESS_Server_getPosition_READ
 #undef ACCESS_Server_getChannelState_READ
 #undef ACCESS_Server_getACL_READ
 #undef ACCESS_Server_getUserNames_READ

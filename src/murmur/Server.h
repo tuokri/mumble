@@ -419,9 +419,11 @@ public:
 	void setUserState(User *p, Channel *parent, bool mute, bool deaf, bool suppressed, bool prioritySpeaker,
 					  const QString &name = QString(), const QString &comment = QString());
 
+	bool getUserPosition(int userId, std::array< float, 3 > &position);
+
 	void setUserPosition(int userId, const std::array< float, 3 > &position);
 
-	void removeUserPosition(int userId);
+	bool removeUserPosition(int userId);
 
 	bool setChannelState(Channel *c, Channel *parent, const QString &qsName, const QSet< Channel * > &links,
 						 const QString &desc = QString(), const int position = 0);

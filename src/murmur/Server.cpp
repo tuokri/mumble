@@ -953,6 +953,7 @@ void Server::run() {
 
 								if (qhUserPositions.contains(u->iId)) {
 									audioData.position = qhUserPositions.value(u->iId);
+									audioData.containsPositionalData = true;
 								}
 
 								processMsg(u, audioData, m_udpAudioReceivers, m_udpAudioEncoder);

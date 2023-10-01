@@ -89,6 +89,13 @@ module MumbleServer
 		float tcpPing;
 	};
 
+	struct Position
+	{
+		float x;
+		float y;
+		float z;
+	};
+
 	sequence<int> IntList;
 
 	/** A text message between users.
@@ -595,10 +602,11 @@ module MumbleServer
 		 */
 		idempotent void setState(User state) throws ServerBootedException, InvalidSessionException, InvalidChannelException, InvalidSecretException;
 
-		/** TODO: docs.
-		 *
-		**/
-		idempotent void setPosition(int userid, float x, float y, float z) throws ServerBootedException, InvalidSessionException, InvalidSecretException;
+		idempotent Position getPosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
+
+		idempotent void setPosition(int userid, Position position) throws ServerBootedException, InvalidSecretException;
+
+		idempotent void removePosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
 		/** Send text message to a single user.
 		 * @param session Connection ID of user. See {@link User.session}.

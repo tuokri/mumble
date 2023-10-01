@@ -93,14 +93,30 @@ void Server::setUserState(User *pUser, Channel *cChannel, bool mute, bool deaf, 
 	}
 }
 
-void Server::setUserPosition(int userId, const std::array< float, 3 > &position)
-{
+bool Server::getUserPosition(int userId, std::array< float, 3 > &position) {
+	// TODO: emit?
+
+	if (!qhUserPositions.contains(userId)) {
+		position = {0, 0, 0};
+		return false;
+	}
+
+	position = qhUserPositions.value(userId);
+	return true;
+}
+
+void Server::setUserPosition(int userId, const std::array< float, 3 > &position) {
+	// TODO: check here that user actually exists?
+	// TODO: emit?
+
 	qhUserPositions.insert(userId, position);
 }
 
-void Server::removeUserPosition(int userId)
-{
-	qhUserPositions.remove(userId);
+bool Server::removeUserPosition(int userId) {
+	// TODO: emit?
+
+	int result = qhUserPositions.remove(userId);
+	return result == 1;
 }
 
 bool Server::setChannelState(Channel *cChannel, Channel *cParent, const QString &qsName, const QSet< Channel * > &links,
