@@ -402,7 +402,7 @@ module MumbleServer
 		 *  @return true if information is present, false to fall through.
 		 */
 		idempotent bool getInfo(int id, out UserInfoMap info);
-	
+
 		/** Map a name to a user id.
 		 *  @param name Username to map.
 		 *  @return User id or -2 for unknown name.
@@ -602,10 +602,26 @@ module MumbleServer
 		 */
 		idempotent void setState(User state) throws ServerBootedException, InvalidSessionException, InvalidChannelException, InvalidSecretException;
 
+		/** Get user position for positional audio.
+		 * @param userid ID of the user to get position for.
+		 * @see setPosition
+		 * @see removePosition
+		 */
 		idempotent Position getPosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
+		/** Set user position for positional audio.
+		 * @param userid ID of the user to set position for.
+		 * @param Position 3D position of the user.
+		 * @see getPosition
+		 * @see removePosition
+		 */
 		idempotent void setPosition(int userid, Position position) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
+		/** Remove user's server-side position. Stops server-side positional audio processing for user.
+		 * @param userid ID of the user to remove position for.
+		 * @see setPosition
+		 * @see getPosition
+		 */
 		idempotent void removePosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
 		/** Send text message to a single user.
