@@ -108,6 +108,11 @@ bool Server::getUserPosition(int userId, std::array< float, 3 > &position) {
 bool Server::setUserPosition(int userId, const std::array< float, 3 > &position) {
 	// TODO: emit?
 
+	if (qhUserPositions.contains(userId)) {
+		qhUserPositions.insert(userId, position);
+		return true;
+	}
+
 	foreach (const ServerUser *u, qhUsers) {
 		if (u->iId == userId) {
 			qhUserPositions.insert(userId, position);
