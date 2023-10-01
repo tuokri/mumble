@@ -421,7 +421,7 @@ public:
 
 	bool getUserPosition(int userId, std::array< float, 3 > &position);
 
-	void setUserPosition(int userId, const std::array< float, 3 > &position);
+	bool setUserPosition(int userId, const std::array< float, 3 > &position);
 
 	bool removeUserPosition(int userId);
 

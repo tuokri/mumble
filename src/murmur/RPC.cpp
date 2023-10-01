@@ -105,17 +105,23 @@ bool Server::getUserPosition(int userId, std::array< float, 3 > &position) {
 	return true;
 }
 
-void Server::setUserPosition(int userId, const std::array< float, 3 > &position) {
-	// TODO: check here that user actually exists?
+bool Server::setUserPosition(int userId, const std::array< float, 3 > &position) {
 	// TODO: emit?
 
-	qhUserPositions.insert(userId, position);
+	foreach (const ServerUser *u, qhUsers) {
+		if (u->iId == userId) {
+			qhUserPositions.insert(userId, position);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool Server::removeUserPosition(int userId) {
 	// TODO: emit?
 
-	int result = qhUserPositions.remove(userId);
+	const int result = qhUserPositions.remove(userId);
 	return result == 1;
 }
 

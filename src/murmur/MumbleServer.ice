@@ -604,7 +604,7 @@ module MumbleServer
 
 		idempotent Position getPosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
-		idempotent void setPosition(int userid, Position position) throws ServerBootedException, InvalidSecretException;
+		idempotent void setPosition(int userid, Position position) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
 		idempotent void removePosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 

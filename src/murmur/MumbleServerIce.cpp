@@ -1334,7 +1334,11 @@ static void impl_Server_setPosition(const ::MumbleServer::AMD_Server_setPosition
 
 	std::array< float, 3 > pos{};
 	positionToPosition(position, pos);
-	server->setUserPosition(userid, pos);
+	const bool ok = server->setUserPosition(userid, pos);
+
+	if (!ok) {
+		cb->ice_exception(InvalidUserException());
+	}
 
 	cb->ice_response();
 }
