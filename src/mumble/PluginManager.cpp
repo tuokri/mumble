@@ -393,6 +393,9 @@ void PluginManager::checkForPluginUpdates() {
 }
 
 bool PluginManager::fetchPositionalData() {
+#ifdef AUTHORITATIVE_SERVER
+	return false;
+#else
 	if (Global::get().bPosTest) {
 		// This is for testing-purposes only so the "fetched" position doesn't have any real meaning
 		m_positionalData.reset();
@@ -455,6 +458,7 @@ bool PluginManager::fetchPositionalData() {
 	}
 
 	return retStatus;
+#endif
 }
 
 void PluginManager::unlinkPositionalData() {
@@ -471,9 +475,14 @@ void PluginManager::unlinkPositionalData() {
 }
 
 bool PluginManager::isPositionalDataAvailable() const {
+// TODO: subclass PluginManager instead of using preprocessor inside functions?
+#ifdef AUTHORITATIVE_SERVER
+	return false;
+#else
 	QReadLocker lock(&m_activePosDataPluginLock);
 
 	return m_activePositionalDataPlugin != nullptr;
+#endif
 }
 
 const PositionalData &PluginManager::getPositionalData() const {

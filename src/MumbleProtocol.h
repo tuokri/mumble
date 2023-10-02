@@ -56,7 +56,8 @@
  */
 #define MUMBLE_ALL_UDP_MESSAGES          \
 	PROCESS_MUMBLE_UDP_MESSAGE(Audio, 0) \
-	PROCESS_MUMBLE_UDP_MESSAGE(Ping, 1)
+	PROCESS_MUMBLE_UDP_MESSAGE(Ping, 1)  \
+	PROCESS_MUMBLE_UDP_MESSAGE(Orientation, 2)
 
 namespace Mumble {
 namespace Protocol {

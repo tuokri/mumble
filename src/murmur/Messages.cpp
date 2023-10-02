@@ -917,6 +917,13 @@ void Server::msgUserState(ServerUser *uSource, MumbleProto::UserState &msg) {
 		return;
 	}
 
+#ifdef AUTHORITATIVE_SERVER
+	if (msg.has_plugin_context() || msg.has_plugin_identity()) {
+		PERM_DENIED_TYPE(AuthoritativeServerClientViolation);
+		return;
+	}
+#endif
+
 	/*
 		-------------------- Permission checks done. Now act --------------------
 	*/

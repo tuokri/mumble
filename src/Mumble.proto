@@ -314,6 +314,8 @@ message PermissionDenied {
 		ChannelListenerLimit = 12;
 		// Amount of listener proxies for the user has been reached
 		UserListenerLimit = 13;
+		// Authoritative server: client attempted to perform illegal action.
+		AuthoritativeServerClientViolation = 14;
 	}
 	// The denied permission when type is Permission.
 	optional uint32 permission = 1;

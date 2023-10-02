@@ -83,3 +83,7 @@ message Ping {
 	// The maximum bandwidth each user is allowed to use for sending audio to the server
 	uint32 max_bandwidth_per_user = 6;
 }
+
+message Orientation {
+	repeated float orientation = 1;
+}
