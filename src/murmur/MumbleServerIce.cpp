@@ -1321,6 +1321,7 @@ static void impl_Server_getPosition(const ::MumbleServer::AMD_Server_getPosition
 
 	if (!ok) {
 		cb->ice_exception(InvalidUserException());
+		return;
 	}
 
 	::MumbleServer::Position mspos{};
@@ -1338,6 +1339,7 @@ static void impl_Server_setPosition(const ::MumbleServer::AMD_Server_setPosition
 
 	if (!ok) {
 		cb->ice_exception(InvalidUserException());
+		return;
 	}
 
 	cb->ice_response();
@@ -1351,6 +1353,31 @@ static void impl_Server_removePosition(const ::MumbleServer::AMD_Server_removePo
 
 	if (!ok) {
 		cb->ice_exception(InvalidUserException());
+		return;
+	}
+
+	cb->ice_response();
+}
+
+static void impl_Server_setPositions(const ::MumbleServer::AMD_Server_setPositionsPtr cb, int server_id,
+									 const ::MumbleServer::IntList &userids,
+									 const ::MumbleServer::PositionList &positions)
+{
+	NEED_SERVER;
+
+	if (userids.size() != positions.size()) {
+		cb->ice_exception(InvalidInputDataException());
+		return;
+	}
+
+	std::array< float, 3 > pos{};
+	::MumbleServer::Position mpos{};
+	auto itUid = userids.cbegin();
+	auto itPos = positions.cbegin();
+	for(; itUid != userids.cend() && itPos != positions.cend(); ++itUid, ++itPos) {
+		mpos = *itPos;
+		positionToPosition(mpos, pos);
+		server->setUserPosition(*itUid, pos);
 	}
 
 	cb->ice_response();

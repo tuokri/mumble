@@ -95,6 +95,7 @@ module MumbleServer
 		float y;
 		float z;
 	};
+	sequence<Position> PositionList;
 
 	sequence<int> IntList;
 
@@ -623,6 +624,14 @@ module MumbleServer
 		 * @see getPosition
 		 */
 		void removePosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
+
+		/** Bulk-update positions for multiple users.
+		 * TODO: ignore errors here? Only set positions for valid ids and ignore bad ones?
+		 * Only set postions if all ids are valid? Ignore errors for now, change later if needed.
+		 * @param userids List of user IDs to set positions for. Must match positions length.
+		 * @param positions List of positions to set for the corresponding user IDs. Must match userids length.
+		 */
+		idempotent void setPositions(IntList userids, PositionList positions) throws ServerBootedException, InvalidInputDataException, InvalidSecretException;
 
 		/** Send text message to a single user.
 		 * @param session Connection ID of user. See {@link User.session}.

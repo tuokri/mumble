@@ -91,6 +91,9 @@ public:
 	virtual void removePosition_async(const ::MumbleServer::AMD_Server_removePositionPtr &, ::Ice::Int,
 									  const Ice::Current &);
 
+	virtual void setPositions_async(const ::MumbleServer::AMD_Server_setPositionsPtr &, const ::MumbleServer::IntList &,
+									const ::MumbleServer::PositionList &, const Ice::Current &);
+
 	virtual void getChannelState_async(const ::MumbleServer::AMD_Server_getChannelStatePtr &, ::Ice::Int,
 									   const Ice::Current &);
 
