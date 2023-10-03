@@ -92,6 +92,7 @@ protected:
 	QMutex qmUdp;
 
 	void handleVoicePacket(const Mumble::Protocol::AudioData &audioData);
+	void handleOrientationPacket(const Mumble::Protocol::OrientationData &orientationData);
 
 public:
 	Timer tTimestamp;

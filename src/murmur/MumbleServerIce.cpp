@@ -225,13 +225,13 @@ static void textmessageToTextmessage(const ::TextMessage &tm, ::MumbleServer::Te
 		tmdst.trees.push_back(i);
 }
 
-static void positionToPosition(const std::array< float, 3> &pos, ::MumbleServer::Position &posdst) {
+static void vector3dToVector3d(const std::array< float, 3> &pos, ::MumbleServer::Vector3D &posdst) {
 	posdst.x = pos[0];
 	posdst.y = pos[1];
 	posdst.z = pos[2];
 }
 
-static void positionToPosition(const ::MumbleServer::Position &pos, std::array< float, 3 > &posdst) {
+static void vector3dToVector3d(const ::MumbleServer::Vector3D &pos, std::array< float, 3 > &posdst) {
 	posdst[0] = pos.x;
 	posdst[1] = pos.y;
 	posdst[2] = pos.z;
@@ -1324,17 +1324,17 @@ static void impl_Server_getPosition(const ::MumbleServer::AMD_Server_getPosition
 		return;
 	}
 
-	::MumbleServer::Position mspos{};
-	positionToPosition(pos, mspos);
+	::MumbleServer::Vector3D mspos{};
+	vector3dToVector3d(pos, mspos);
 	cb->ice_response(mspos);
 }
 
 static void impl_Server_setPosition(const ::MumbleServer::AMD_Server_setPositionPtr cb, int server_id,
-									::Ice::Int userid, const ::MumbleServer::Position &position) {
+									::Ice::Int userid, const ::MumbleServer::Vector3D &position) {
 	NEED_SERVER;
 
 	std::array< float, 3 > pos{};
-	positionToPosition(position, pos);
+	vector3dToVector3d(position, pos);
 	const bool ok = server->setUserPosition(userid, pos);
 
 	if (!ok) {
@@ -1361,7 +1361,7 @@ static void impl_Server_removePosition(const ::MumbleServer::AMD_Server_removePo
 
 static void impl_Server_setPositions(const ::MumbleServer::AMD_Server_setPositionsPtr cb, int server_id,
 									 const ::MumbleServer::IntList &userids,
-									 const ::MumbleServer::PositionList &positions)
+									 const ::MumbleServer::Vector3DList &positions)
 {
 	NEED_SERVER;
 
@@ -1371,13 +1371,36 @@ static void impl_Server_setPositions(const ::MumbleServer::AMD_Server_setPositio
 	}
 
 	std::array< float, 3 > pos{};
-	::MumbleServer::Position mpos{};
+	::MumbleServer::Vector3D mpos{};
 	auto itUid = userids.cbegin();
 	auto itPos = positions.cbegin();
 	for(; itUid != userids.cend() && itPos != positions.cend(); ++itUid, ++itPos) {
 		mpos = *itPos;
-		positionToPosition(mpos, pos);
+		vector3dToVector3d(mpos, pos);
 		server->setUserPosition(*itUid, pos);
+	}
+
+	cb->ice_response();
+}
+
+static void impl_Server_setOrientations(const ::MumbleServer::AMD_Server_setOrientationsPtr cb, int server_id,
+										const ::MumbleServer::IntList &userids,
+										const ::MumbleServer::Vector3DList &orientations) {
+	NEED_SERVER;
+
+	if (userids.size() != orientations.size()) {
+		cb->ice_exception(InvalidInputDataException());
+		return;
+	}
+
+	std::array< float, 3 > orientation{};
+	::MumbleServer::Vector3D morientation{};
+	auto itUid = userids.cbegin();
+	auto itOrient = orientations.cbegin();
+	for(; itUid != userids.cend() && itOrient != orientations.cend(); ++itUid, ++itOrient) {
+		morientation = *itOrient;
+		vector3dToVector3d(morientation, orientation);
+		server->setUserOrientation(*itUid, orientation);
 	}
 
 	cb->ice_response();

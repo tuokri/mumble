@@ -597,6 +597,12 @@ namespace Protocol {
 		return m_pingData;
 	}
 
+	template< Role role > OrientationData UDPDecoder< role >::getOrientationData() const {
+		assert(m_messageType == UDPMessageType::Orientation);
+
+		return m_orientationData;
+	}
+
 	template< Role role > bool UDPDecoder< role >::decodePing_legacy(const gsl::span< const byte > data) {
 		m_messageType = UDPMessageType::Ping;
 		m_pingData    = {};

@@ -306,6 +306,7 @@ public:
 	QHash< HostAddress, QSet< ServerUser * > > qhHostUsers;
 	QHash< unsigned int, Channel * > qhChannels;
 	QHash< int, std::array< float, 3 >> qhUserPositions;
+	QHash< int, std::array< float, 3 >> qhUserOrientations;
 
 	QMutex qmCache;
 	ChanACL::ACLCache acCache;
@@ -424,6 +425,8 @@ public:
 	bool setUserPosition(int userId, const std::array< float, 3 > &position);
 
 	bool removeUserPosition(int userId);
+
+	bool setUserOrientation(int userId, const std::array< float, 3 > &orientation);
 
 	bool setChannelState(Channel *c, Channel *parent, const QString &qsName, const QSet< Channel * > &links,
 						 const QString &desc = QString(), const int position = 0);

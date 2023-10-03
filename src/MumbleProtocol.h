@@ -54,9 +54,9 @@
  *
  * Warning: Only append to the end. Never insert in between or remove an existing entry.
  */
-#define MUMBLE_ALL_UDP_MESSAGES          \
-	PROCESS_MUMBLE_UDP_MESSAGE(Audio, 0) \
-	PROCESS_MUMBLE_UDP_MESSAGE(Ping, 1)  \
+#define MUMBLE_ALL_UDP_MESSAGES                \
+	PROCESS_MUMBLE_UDP_MESSAGE(Audio, 0)       \
+	PROCESS_MUMBLE_UDP_MESSAGE(Ping, 1)        \
 	PROCESS_MUMBLE_UDP_MESSAGE(Orientation, 2)
 
 namespace Mumble {
@@ -153,6 +153,10 @@ namespace Protocol {
 
 		friend bool operator==(const PingData &lhs, const PingData &rhs);
 		friend bool operator!=(const PingData &lhs, const PingData &rhs);
+	};
+
+	struct OrientationData {
+		std::array< float, 3 > orientation = { 0, 0, 0 };
 	};
 
 	template< Role role > class UDPAudioEncoder : public ProtocolHandler< role > {
@@ -259,12 +263,14 @@ namespace Protocol {
 
 		AudioData getAudioData() const;
 		PingData getPingData() const;
+		OrientationData getOrientationData() const;
 
 	protected:
 		std::vector< byte > m_byteBuffer;
 		UDPMessageType m_messageType;
 		AudioData m_audioData = {};
 		PingData m_pingData   = {};
+		OrientationData m_orientationData   = {};
 		MumbleUDP::Ping m_pingMessage;
 		MumbleUDP::Audio m_audioMessage;
 

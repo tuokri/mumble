@@ -966,6 +966,7 @@ void Server::msgUserState(ServerUser *uSource, MumbleProto::UserState &msg) {
 			bBroadcast = true;
 		}
 
+#ifndef AUTHORITATIVE_SERVER
 		if (msg.has_plugin_context()) {
 			pDstServerUser->ssContext = msg.plugin_context();
 
@@ -979,6 +980,7 @@ void Server::msgUserState(ServerUser *uSource, MumbleProto::UserState &msg) {
 		// Make sure to clear this from the packet so we don't broadcast it
 		msg.clear_plugin_identity();
 	}
+#endif
 
 	if (!comment.isNull()) {
 		hashAssign(pDstServerUser->qsComment, pDstServerUser->qbaCommentHash, comment);

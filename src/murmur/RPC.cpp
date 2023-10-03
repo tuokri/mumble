@@ -130,6 +130,22 @@ bool Server::removeUserPosition(int userId) {
 	return result == 1;
 }
 
+bool Server::setUserOrientation(int userId, const std::array< float, 3 > &orientation) {
+	if (qhUserOrientations.contains(userId)) {
+		qhUserOrientations.insert(userId, orientation);
+		return true;
+	}
+
+	foreach (const ServerUser *u, qhUsers) {
+		if (u->iId == userId) {
+			qhUserOrientations.insert(userId, orientation);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Server::setChannelState(Channel *cChannel, Channel *cParent, const QString &qsName, const QSet< Channel * > &links,
 							 const QString &desc, const int position) {
 	bool changed = false;

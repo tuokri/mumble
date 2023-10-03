@@ -89,13 +89,13 @@ module MumbleServer
 		float tcpPing;
 	};
 
-	struct Position
+	struct Vector3D
 	{
 		float x;
 		float y;
 		float z;
 	};
-	sequence<Position> PositionList;
+	sequence<Vector3D> Vector3DList;
 
 	sequence<int> IntList;
 
@@ -608,7 +608,7 @@ module MumbleServer
 		 * @see setPosition
 		 * @see removePosition
 		 */
-		idempotent Position getPosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
+		idempotent Vector3D getPosition(int userid) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
 		/** Set user position for positional audio.
 		 * @param userid ID of the user to set position for.
@@ -616,7 +616,7 @@ module MumbleServer
 		 * @see getPosition
 		 * @see removePosition
 		 */
-		idempotent void setPosition(int userid, Position position) throws ServerBootedException, InvalidUserException, InvalidSecretException;
+		idempotent void setPosition(int userid, Vector3D position) throws ServerBootedException, InvalidUserException, InvalidSecretException;
 
 		/** Remove user's server-side position. Stops server-side positional audio processing for user.
 		 * @param userid ID of the user to remove position for.
@@ -631,9 +631,10 @@ module MumbleServer
 		 * @param userids List of user IDs to set positions for. Must match positions length.
 		 * @param positions List of positions to set for the corresponding user IDs. Must match userids length.
 		 */
-		idempotent void setPositions(IntList userids, PositionList positions) throws ServerBootedException, InvalidInputDataException, InvalidSecretException;
+		idempotent void setPositions(IntList userids, Vector3DList positions) throws ServerBootedException, InvalidInputDataException, InvalidSecretException;
 
-		/** Send text message to a single user.
+		idempotent void setOrientations(IntList userids, Vector3DList orientations) throws ServerBootedException, InvalidInputDataException, InvalidSecretException;
+it 		/** Send text message to a single user.
 		 * @param session Connection ID of user. See {@link User.session}.
 		 * @param text Message to send.
 		 * @see sendMessageChannel

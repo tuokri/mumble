@@ -268,6 +268,15 @@ void ServerHandler::udpReady() {
 					handleVoicePacket(audioData);
 					break;
 				};
+#ifdef AUTHORITATIVE_SERVER
+// TODO: is there extra delay from this?
+				case Mumble::Protocol::UDPMessageType::Orientation: {
+					const Mumble::Protocol::OrientationData orientationData = m_udpDecoder.getOrientationData();
+
+					handleOrientationPacket(orientationData);
+					break;
+				}
+#endif
 			}
 		}
 	}
@@ -287,6 +296,12 @@ void ServerHandler::handleVoicePacket(const Mumble::Protocol::AudioData &audioDa
 			 && sender->qsFriendName.isEmpty())) {
 		ao->addFrameToBuffer(sender, audioData);
 	}
+}
+
+void ServerHandler::handleOrientationPacket(const Mumble::Protocol::OrientationData &orientationData) {
+
+	static_cast<void>(orientationData);
+	// set orientation data
 }
 
 void ServerHandler::sendMessage(const unsigned char *data, int len, bool force) {

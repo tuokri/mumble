@@ -86,13 +86,17 @@ public:
 	virtual void getPosition_async(const ::MumbleServer::AMD_Server_getPositionPtr &, ::Ice::Int, const Ice::Current &);
 
 	virtual void setPosition_async(const ::MumbleServer::AMD_Server_setPositionPtr &, ::Ice::Int,
-								   const ::MumbleServer::Position &, const Ice::Current &);
+								   const ::MumbleServer::Vector3D &, const Ice::Current &);
 
 	virtual void removePosition_async(const ::MumbleServer::AMD_Server_removePositionPtr &, ::Ice::Int,
 									  const Ice::Current &);
 
 	virtual void setPositions_async(const ::MumbleServer::AMD_Server_setPositionsPtr &, const ::MumbleServer::IntList &,
-									const ::MumbleServer::PositionList &, const Ice::Current &);
+									const ::MumbleServer::Vector3DList &, const Ice::Current &);
+
+	virtual void setOrientations_async(const ::MumbleServer::AMD_Server_setOrientationsPtr &, const
+									   ::MumbleServer::IntList &, const ::MumbleServer::Vector3DList &,
+									   const Ice::Current &);
 
 	virtual void getChannelState_async(const ::MumbleServer::AMD_Server_getChannelStatePtr &, ::Ice::Int,
 									   const Ice::Current &);

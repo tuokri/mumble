@@ -952,7 +952,7 @@ void Server::run() {
 								audioData.senderSession = u->uiSession;
 
 								if (qhUserPositions.contains(u->iId)) {
-									audioData.position = qhUserPositions.value(u->iId);
+									audioData.position               = qhUserPositions.value(u->iId);
 									audioData.containsPositionalData = true;
 								}
 
@@ -974,6 +974,12 @@ void Server::run() {
 							}
 							break;
 						}
+#ifdef AUTHORITATIVE_SERVER
+						case Mumble::Protocol::UDPMessageType::Orientation: {
+							// Clients should never send this to the server, ignore.
+							break;
+						}
+#endif
 					}
 				}
 #ifdef Q_OS_UNIX
